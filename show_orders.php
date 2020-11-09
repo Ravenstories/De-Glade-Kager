@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 
-
 <head>
 
   <meta charset="utf-8">
@@ -16,38 +15,52 @@
 
   <!-- Custom styles for this template -->
   <link href="show_orders.css" rel="stylesheet">
-
+  
 </head>
 <body>
-
-
-<!-- Header -->
-<?php include('templates/header.php'); ?>
-	  
-<!-- Page Content -->	 
+	
+	<!-- Header -->
+	<?php include('templates/header.php'); 
+	
+	// Connect to datebase. See the connection file for connection information
+	include('templates/connection.php');
+	?>
+	
+	<!-- Delete function -->
 	<?php
-		// This is page is an alpha stage page for the site where users can see the orders that have been placed
+		if(isset($_POST['delete'])){
+			$id_to_delete = mysqli_real_escape_string($connection, $_POST['id_to_delete']);
 
-		// Connect to datebase. See the connection file for connection information
-		include('templates/connection.php');
+			$sql = "DELETE FROM orders WHERE order_ID = $id_to_delete";
 
+			if(mysqli_query($connection, $sql)){
+				mysqli_close($connection);
+				header('Location: show_orders.php');
+			}{
+				echo 'query error: ' . mysqli_error($connection);
+			}
+		}
+	?>	 
+
+	<!-- Datebase Data -->
+	<?php
 		// Grapping the data we want and store it in a variable
-		$sql = 'SELECT firstName, lastName, cake_order, comment, email, phone FROM orders';
-
+		$sql = 'SELECT order_ID, firstName, lastName, cake_order, comment, email, phone, date FROM orders';
+		
 		// To get the data we need to have the connection and sql statement in a variable we can use when we want to output data
 		$result = mysqli_query($connection, $sql);
-
+		
 		// This store our data in an array we can use to output it
 		$show_Orders = mysqli_fetch_all($result, MYSQLI_ASSOC);
-
+		
 		// Will free the result from memory
 		mysqli_free_result($result);
-
+		
 		// Closes the connection
 		mysqli_close($connection)
-
 	?>
 
+	<!-- Page Content -->	 
 	<!-- Shows all the orders in their own box -->
 	<section>
 		<div class="row text-center">
@@ -60,6 +73,11 @@
 							<p class="card-text"><?php echo htmlspecialchars($orders['comment']); ?></p>
 							<p class="card-text"><?php echo htmlspecialchars($orders['email']); ?></p>
 							<p class="card-text"><?php echo htmlspecialchars($orders['phone']); ?></p>
+							<p class="card-text"><?php echo htmlspecialchars($orders['date']); ?></p>
+							<form action="show_orders.php" method="POST">
+								<input type="hidden" name="id_to_delete" value="<?php echo $orders['order_ID'] ?>">
+								<input type="submit" name="delete" value="Delete" class="btn-submit:hover">
+							</form>
 						</div>
 					</div>
 				</div>
