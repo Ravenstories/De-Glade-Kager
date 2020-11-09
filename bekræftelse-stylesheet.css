@@ -1,0 +1,40 @@
+/*!
+ * Start Bootstrap - Heroic Features (https://startbootstrap.com/templates/heroic-features)
+ * Copyright 2013-2020 Start Bootstrap
+ * Licensed under MIT (https://github.com/StartBootstrap/startbootstrap-heroic-features/blob/master/LICENSE)
+ */
+body {
+  padding-top: 56px;
+}
+
+.image{
+	position: relative;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	width: 50%;
+	text-align: center;
+}
+
+.container{
+	position: relative;
+	text-align: center;
+	color: black;
+}
+
+.centered {
+	position: relative;
+	top: 20%;
+    left: 30%;
+    right: 20%;
+	text-align: center;
+	color: black;
+
+}
+
+#main {
+	overflow: auto;
+	padding-bottom: 20px;
+}
+
+
