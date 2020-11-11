@@ -32,7 +32,9 @@
 			$id_to_delete = mysqli_real_escape_string($connection, $_POST['id_to_delete']);
 
 			$sql = "DELETE FROM orders WHERE order_ID = $id_to_delete";
-
+			$sqlDeleteCount = "DELETE FROM cakecounter ORDER BY counter_ID LIMIT 1";
+			mysqli_query($connection, $sqlDeleteCount);
+				
 			if(mysqli_query($connection, $sql)){
 				mysqli_close($connection);
 				header('Location: show_orders.php');
@@ -57,7 +59,7 @@
 		mysqli_free_result($result);
 		
 		// Closes the connection
-		mysqli_close($connection)
+		mysqli_close($connection);
 	?>
 
 	<!-- Page Content -->	 
